@@ -12,6 +12,7 @@ spring:
     host:
     port: 16379
     password: thsmart!@#
+    database: 15
     lettuce:
       pool:
         max-active: 10
