@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.TimeUnit;
+
+import static com.hmdp.utils.RedisConstants.*;
 /**
  * <p>
  *  服务实现类
@@ -28,7 +31,7 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
     @Override
     public Result queryById(Long id) {
 
-        String key = "cache:shop:"+id;
+        String key = CACHE_SHOP_KEY+id;
         //1从Redis中查询商铺缓存
         String shopJosn = stringRedisTemplate.opsForValue().get(key);
         //2判断是否存在
@@ -44,8 +47,27 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
             return Result.fail("店铺不存在！");
         }
         // 存在 写入Redis
-        stringRedisTemplate.opsForValue().set(key,JSONUtil.toJsonStr(shop));
+        stringRedisTemplate.opsForValue().set(key,JSONUtil.toJsonStr(shop),30L, TimeUnit.MINUTES);
         //返回
         return Result.ok(shop);
+    }
+
+    /**
+     * 更新数据，先更新后删除
+     * @param shop
+     * @return
+     */
+    @Override
+    public Result update(Shop shop) {
+        Long id = shop.getId();
+        if (id == null) {
+            return Result.fail("商铺不存在");
+        }
+        //更新数据库
+        boolean b = updateById(shop);
+
+        //删除缓存
+        stringRedisTemplate.delete(CACHE_SHOP_KEY + id);
+        return Result.ok();
     }
 }
