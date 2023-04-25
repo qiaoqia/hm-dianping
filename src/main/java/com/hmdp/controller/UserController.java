@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
  * 前端控制器
  * </p>
  *
- * @author zero 虎哥
+ * @author zero
  */
 @Slf4j
 @RestController

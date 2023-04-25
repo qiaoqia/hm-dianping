@@ -11,7 +11,7 @@ import java.util.List;
  *  Mapper 接口
  * </p>
  *
- * @author zero 虎哥
+ * @author zero
  * 
  */
 public interface VoucherMapper extends BaseMapper<Voucher> {

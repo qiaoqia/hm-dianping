@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
  *  前端控制器
  * </p>
  *
- * @author zero 虎哥
+ * @author zero
  * 
  */
 @RestController

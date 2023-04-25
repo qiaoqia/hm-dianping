@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
  *  服务类
  * </p>
  *
- * @author zero 虎哥
+ * @author zero
  * 
  */
 public interface IUserService extends IService<User> {
